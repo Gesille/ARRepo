@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const auth_1 = require("../middleware/auth");
+const post_controller_1 = require("../controllers/post.controller");
+const increaseVisit_1 = __importDefault(require("../middleware/increaseVisit"));
+const postRouter = express_1.default.Router();
+postRouter.post("/create-post", auth_1.isAuthenticated, post_controller_1.createPost);
+postRouter.get("/get-post", auth_1.isAuthenticated, post_controller_1.getPosts);
+postRouter.get("/get-post-filter", auth_1.isAuthenticated, post_controller_1.getPosts);
+postRouter.post("/add-comment", auth_1.isAuthenticated, post_controller_1.addComment);
+postRouter.get('/comment/:postId', auth_1.isAuthenticated, post_controller_1.getPostComments);
+postRouter.delete('/delete-comment/:commentId', auth_1.isAuthenticated, post_controller_1.deleteComment);
+postRouter.get("/single-post-page/:slug", auth_1.isAuthenticated, increaseVisit_1.default, post_controller_1.getPost);
+postRouter.delete("/delete-post/:id", auth_1.isAuthenticated, post_controller_1.deletePost);
+postRouter.patch("/feature", auth_1.isAuthenticated, post_controller_1.featurePost);
+exports.default = postRouter;

@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const orderItem_controller_1 = require("../controllers/orderItem.controller");
+const auth_1 = require("../middleware/auth");
+const Itemrouter = (0, express_1.Router)();
+Itemrouter.post("/create-order-item", auth_1.isAuthenticated, orderItem_controller_1.createOrderItem);
+Itemrouter.get("/get-order-item", auth_1.isAuthenticated, orderItem_controller_1.getOrderItems);
+Itemrouter.get("/analyze-orders", auth_1.isAuthenticated, (0, auth_1.authorizeRoles)("admin"), orderItem_controller_1.analyzeOrdersForChart);
+Itemrouter.patch("/order-items/:orderId/:bookId", orderItem_controller_1.updateOrderItem);
+exports.default = Itemrouter;
